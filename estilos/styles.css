@@ -1,0 +1,433 @@
+/* styles.css */
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+header {
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+  position: fixed; /* Fixa o header no topo da página */
+  top: 0; /* Alinha ao topo */
+  left: 0; /* Começa na borda esquerda */
+  width: 100%; /* Faz o header ocupar toda a largura */
+  z-index: 1000; /* Garante que fique acima de outros elementos */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra para destaque */
+}
+
+
+header img {
+  max-height: 50px; /* Controla a altura da logo */
+  height: auto;
+  width: auto;
+}
+
+
+header nav a {
+  color: #000000;
+  font-weight: 600;
+  padding: 32px;
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding-top: 75px; /* Espaço equivalente à altura do header */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/*
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+*/
+
+/* Container Layout */
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+*/
+
+/* Sidebar Styling */
+.sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+  color: #fff;
+  padding: 1.5rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+/*
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+*/
+
+.sidebar h2 {
+  margin: 0 0 2rem 0;
+  padding: 0.5rem 0;
+  font-size: 1.75rem;
+  text-align: center;
+  color: #ecf0f1;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.content h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #eee;
+  position: relative;
+}
+
+/*
+.sidebar h2 {
+  margin-top: 0;
+  text-align: center;
+}
+*/
+
+.sidebar nav {
+    flex-grow: 1;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin: 0.5rem 0;
+}
+
+/*
+.sidebar nav ul li {
+  margin: 15px 0;
+}
+*/
+
+.sidebar nav ul li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: block;
+  padding: 0.875rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/*
+.sidebar nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+*/
+
+.sidebar nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+/*
+.sidebar nav ul li a:hover {
+  background-color: #575757;
+}
+*/
+
+.sidebar nav ul li a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+/* Main Content Area */
+.content {
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: #fff;
+  overflow-y: auto;
+  position: relative;
+}
+
+/*
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  overflow-y: auto;
+}
+*/
+
+.section {
+  display: none;
+}
+
+.section.hidden {
+  display: none;
+}
+
+.section:not(.hidden) {
+  display: block;
+}
+
+/* Section Headers */
+.content h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #eee;
+  position: relative;
+}
+
+.content h1::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 1235px;
+  height: 2px;
+  background-color: #3498db;
+}
+
+/*cliente ----------------*/
+
+/* Formulário de Cadastro */
+.form-container {
+  background: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #eee;
+  position: relative;
+}
+
+.form-container label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.form-container input,
+.form-container select,
+.form-container button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-container button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #218838;
+}
+
+#observacao {
+  width: 1200px;
+  height: 100px;
+  resize: none; /* opcional: impede o redimensionamento */
+}
+
+#relato {
+  width: 1200px;
+  height: 100px;
+  resize: none; /* opcional: impede o redimensionamento */
+}
+
+/* Lista de Clientes */
+.list-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.list-container table th,
+.list-container table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.list-container table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.list-container button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.list-container button.delete {
+  background-color: #dc3545;
+}
+
+.list-container button:hover {
+  opacity: 0.9;
+}
+
+
+/* Estilo dos Botões */
+.btn-group {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+
+
+/*Ainda Falta Organizar*/
+
+
+/* Estilo dos campos de input e textarea */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+/* Efeito hover nos campos */
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="tel"]:hover,
+textarea:hover,
+select:hover {
+    border-color: #28a745;
+}
+
+/* Efeito focus nos campos */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+}
+
+
+
+
+
+/*Ainda Falta Organizar*/
+
+
+
+
+/* Section Visibility */
+.section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease-out;
+}
+
+.section:not(.hidden) {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+      width: 200px;
+  }
+  
+  .content {
+      padding: 1rem;
+  }
+  
+  .sidebar nav ul li a {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
