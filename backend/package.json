@@ -1,0 +1,28 @@
+{
+  "name": "simplesmed_app",
+  "version": "1.0.0",
+  "description": "Aplicação de gerenciamento de assistência técnica.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaeldnsilva/simplesmed_app.git"
+  },
+  "author": "Rafael do Nascimento Silva e Francisco Fabiano",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/rafaeldnsilva/simplesmed_app/issues"
+  },
+  "homepage": "https://github.com/rafaeldnsilva/simplesmed_app#readme",
+  "keywords": [],
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mssql": "^11.0.1"
+  }
+}
