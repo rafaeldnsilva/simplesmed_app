@@ -69,3 +69,20 @@ conectarBD().then(() => {
 }).catch(err => {
     console.error('Erro ao iniciar o servidor:', err);
 });
+
+// Endpoint para obter a lista de clientes
+app.get('/api/clientes', async (req, res) => {
+    try {
+        // Criar uma nova requisição
+        const request = new sql.Request();
+
+        // Executar a consulta SQL
+        const result = await request.query('SELECT * FROM Clientes');
+
+        // Enviar os dados como resposta
+        res.status(200).json(result.recordset);
+    } catch (error) {
+        console.error('Erro ao buscar os clientes:', error);
+        res.status(500).json({ error: 'Erro ao buscar os clientes.' });
+    }
+});
