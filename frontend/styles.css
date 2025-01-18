@@ -316,24 +316,6 @@ body {
   font-weight: bold;
 }
 
-.list-container button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.list-container button.delete {
-  background-color: #dc3545;
-}
-
-.list-container button:hover {
-  opacity: 0.9;
-}
-
-
 /* Estilo dos Botões */
 .btn-group {
   display: flex;
@@ -341,6 +323,29 @@ body {
   gap: 10px; /* Espaçamento entre os botões */
 }
 
+button {
+  margin-top: 20px; /* Substitua '20px' pelo valor desejado */
+}
+
+/*Apenas para os botões em ordem de serviço*/
+.list-container button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1;
+}
+
+/*Apenas para o botão de exclusão em ordem de serviço*/
+.list-container button.delete {
+  background-color: #dc3545;
+}
+
+.list-container button:hover {
+  opacity: 0.9;
+}
 
 
 /*Ainda Falta Organizar*/
