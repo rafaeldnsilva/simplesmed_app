@@ -199,16 +199,22 @@ body {
 }
 */
 
+/* Section Visibility */
 .section {
   display: none;
-}
-
-.section.hidden {
-  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease-out;
 }
 
 .section:not(.hidden) {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section.hidden {
+  display: none;
 }
 
 /* Section Headers */
@@ -378,25 +384,8 @@ select:focus {
 
 
 
-
-
 /*Ainda Falta Organizar*/
 
-
-
-
-/* Section Visibility */
-.section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s ease-out;
-}
-
-.section:not(.hidden) {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplesmed Assistência Técnica</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <a href="index.html">
+            <img src="img/logotipo-simplesmed.png" width="75" height="50" alt="Simplesmed">
+        </a>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#cientes">Clientes</a>
+            <a href="#ordem">Ordem de Serviço</a>
+            <a href="#orcamento">Orçamento</a>
+            <a href="#lembretes">Lembretes</a>
+        </nav>
+    </header>
+    <div class="container">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html" id="clientes">Clientes</a></li>
+                    <li><a href="ordem.html" id="ordem-servico">Ordem de Serviço</a></li>
+                    <li><a href="#" id="orcamento">Orçamento</a></li>
+                    <li><a href="#" id="lembretes">Lembretes</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="content">
+            <section id="clientes-section" class="section hidden">
+                <h1>Clientes</h1>
+                <button onclick="alert('Cadastrar Cliente')">Cadastrar</button>
+            </section>
+            <section id="ordem-servico-section" class="section hidden">
+                <h1>Ordem de Serviço</h1>
+                <button onclick="alert('Nova Ordem de Serviço')">Nova Ordem</button>
+            </section>
+            <section id="orcamento-section" class="section hidden">
+                <h1>Orçamento</h1>
+                <button onclick="alert('Novo Orçamento')">Novo Orçamento</button>
+            </section>
+            <section id="lembretes-section" class="section hidden">
+                <h1>Lembretes</h1>
+                <button onclick="alert('Novo Lembrete')">Novo Lembrete</button>
+            </section>
+            <!-- pagina Ordem de Serviço -->
+            <section id="ordem-servico-section" class="section">
+              <h1>Ordem de Serviço</h1>
+                       
+              <!-- Lista de Clientes -->
+              <div class="list-container">
+                  <h2>Lista de Clientes</h2>
+                  <table id="clientes-table">
+                      <thead>
+                          <tr>
+                              <th>Nome</th>
+                              <th>CPF/CNPJ</th>
+                              <th>Telefone</th>
+                              <th>E-mail</th>
+                              <th>Ações</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- Linhas adicionadas dinamicamente -->
+                      </tbody>
+                  </table>
+                   <!-- Botões -->
+                   <div class="btn-group">
+                    <button type="submit" onclick="localizar()">Buscar</button>
+                    <button type="button" onclick="imprimir()">Imprimir</button>
+                    <button type="button" onclick="enviarEmail()">Enviar por E-mail</button>
+                    <!-- Botão de Limpar -->
+                    <button type="reset">Limpar</button>
+                </div>
+              </div>
+          </section>
+          <!-- fim ordem -->
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
