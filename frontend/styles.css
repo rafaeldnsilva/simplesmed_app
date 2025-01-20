@@ -275,6 +275,7 @@ body {
   border-radius: 5px;
 }
 
+/*
 .form-container button {
   background-color: #28a745;
   color: #fff;
@@ -285,6 +286,7 @@ body {
 .form-container button:hover {
   background-color: #218838;
 }
+*/
 
 #observacao {
   width: 1200px;
@@ -328,7 +330,7 @@ button {
 }
 
 /*Apenas para os botões em ordem de serviço*/
-.list-container button {
+.form-container button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -339,12 +341,16 @@ button {
 }
 
 /*Apenas para o botão de exclusão em ordem de serviço*/
-.list-container button.delete {
+.form-container button.delete {
   background-color: #dc3545;
 }
 
-.list-container button:hover {
+.form-container button:hover {
   opacity: 0.9;
+}
+
+.delete button:hover {
+  background-color: #dc3545;
 }
 
 

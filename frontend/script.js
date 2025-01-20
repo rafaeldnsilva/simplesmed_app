@@ -14,13 +14,17 @@ async function salvar() {
         serie: formData.get('serie'),
         garantia: formData.get('garantia'),
         observacao: formData.get('observacao'),
-        relato: formData.get('relato'),
+        relato: formData.get('relato')
+        
     };
+
+    console.log('Dados capturados do formulário:', dados); // Log para verificar dados capturados
+    console.log('Valor do campo Relato no frontend:', dados.relato); // Log para verificar valor de relato
 
     try {
         const response = await fetch('http://localhost:3000/api/clientes', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
             body: JSON.stringify(dados),
         });
 
@@ -36,6 +40,11 @@ async function salvar() {
         alert('Erro ao salvar dados.');
     }
 }
+
+document.getElementById('cliente-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Previne o envio padrão do formulário
+    salvar(); // Chama a função salvar
+});
 
 function imprimir() {
     const form = document.getElementById('cliente-form');
@@ -199,29 +208,60 @@ function enviarEmail() {
     console.log("Enviando e-mail com os dados: ", emailBody);
 }
 
-// Função para carregar e exibir os clientes
-async function carregarClientes() {
+
+// Função para carregar e exibir os clientes quando o botão "Buscar" é clicado
+async function buscarClientes() {
+    const form = document.getElementById('ordem-form');
+    const formData = new FormData(form);
+
+    // Captura dos valores dos campos de busca
+    const nome = formData.get('searchNome');
+    const cpfCnpj = formData.get('searchCPF');
+    const telefone = formData.get('searchTelefone');
+
+    // Verifique se os elementos foram encontrados
+    if (!nomeInput || !cpfInput || !telefoneInput) {
+        console.error('Erro: Um ou mais campos de entrada não foram encontrados.');
+        alert('Erro: Um ou mais campos de entrada não foram encontrados.');
+        return;
+    }
+
+    const dados = { nome, cpfCnpj, telefone };
+
     try {
-        const response = await fetch('http://localhost:3000/api/clientes');
+        console.log('Enviando requisição com:', dados); // Log para debug
+
+        // Fazer a requisição com os parâmetros de busca
+        const response = await fetch('http://localhost:3000/api/clientes/buscar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8' // Certifique-se do charset
+            },
+            body: JSON.stringify(dados)
+        });
+
         if (response.ok) {
             const clientes = await response.json();
+            console.log('Dados recebidos:', clientes); // Log para debug
             exibirClientes(clientes);
         } else {
-            console.error('Erro ao carregar clientes:', response.statusText);
+            const error = await response.json();
+            console.error('Erro ao buscar clientes:', error);
+            alert('Erro ao buscar clientes: ' + error.message);
         }
     } catch (error) {
         console.error('Erro na requisição:', error);
+        alert('Erro na requisição: ' + error.message);
     }
 }
 
-// Função para exibir os clientes na tabela
 function exibirClientes(clientes) {
     const tabela = document.getElementById('clientes-table').getElementsByTagName('tbody')[0];
 
-    // Limpar a tabela antes de inserir novos dados
     tabela.innerHTML = '';
 
     clientes.forEach(cliente => {
+        console.log('Exibindo cliente:', cliente); // Log para debug
         const row = tabela.insertRow();
 
         const celulaNome = row.insertCell(0);
@@ -244,8 +284,16 @@ function exibirClientes(clientes) {
     });
 }
 
-// Carregar os clientes ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    carregarClientes();
-});
+// Funções temporárias para os botões de ação
+function editarCliente(id) {
+    alert('Editar cliente com ID: ' + id);
+}
 
+function excluirCliente(id) {
+    alert('Excluir cliente com ID: ' + id);
+}
+
+document.getElementById('cliente-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Previne o envio padrão do formulário
+    buscarClientes(); // Chama a função buscarClientes
+});
