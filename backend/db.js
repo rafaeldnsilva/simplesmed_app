@@ -157,17 +157,17 @@ async function criarCliente(dados) {
   
     // Se "filtros.nome" não for vazio, adiciona condicional
     if (filtros.nome) {
-      query += ' AND Nome LIKE @Nome';
+      querySelect += ' AND Nome LIKE @Nome';
       params.push({ name: 'Nome', value: `%${filtros.nome}%`, type: sql.NVarChar });
     }
   
     if (filtros.cpfCnpj) {
-      query += ' AND CpfCnpj LIKE @CpfCnpj';
+      querySelect += ' AND CpfCnpj LIKE @CpfCnpj';
       params.push({ name: 'CpfCnpj', value: `%${filtros.cpfCnpj}%`, type: sql.NVarChar });
     }
   
     if (filtros.telefone) {
-      query += ' AND Telefone LIKE @Telefone';
+      querySelect += ' AND Telefone LIKE @Telefone';
       params.push({ name: 'Telefone', value: `%${filtros.telefone}%`, type: sql.NVarChar });
     }
   
@@ -187,7 +187,7 @@ async function criarCliente(dados) {
   
   // 3) Listar todos os clientes (sem filtros)
   async function listarTodosClientes() {
-    const pool = sql.getPool();
+    // Executa a query
     try {
       const result = await pool.request().query('SELECT * FROM Clientes');
       return result.recordset;
