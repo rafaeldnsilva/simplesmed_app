@@ -1,0 +1,72 @@
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout do código
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # 2. Configurar Node.js (se precisar rodar teste, lint, etc.)
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: "22.x"
+
+    # 3. Instalar dependências (opcional se quiser rodar testes antes)
+    - name: Install Dependencies
+      run: npm install
+
+    # 4. Rodar testes (opcional)
+    - name: Run tests
+      run: echo "No tests defined yet" # Adicione comandos de teste se necessário
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    # 5. Checkout do código
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # 6. Build da imagem Docker
+    - name: Build Docker Image
+      run: docker build -t simplesmed-app .
+
+    # 7. Testar container Docker
+    - name: Testar container Docker
+      run: docker run --rm -p 3000:3000 simplesmed-app npm run build
+ 
+  deploy:
+    # Esse job é opcional e realiza o deploy para o Azure
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps: 
+    # 8. Checkout do código
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # 9. Login no Azure (usando as credenciais armazenadas em GitHub Secrets)
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # 10. Deploy da Imagem no Azure Web App for Containers
+    #    (troque 'nome-do-seu-app' pelo nome do seu Azure Web App)
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: "simplesmed_app" # Substitua pelo nome do seu aplicativo no Azure
+        images: "simplesmed-app:latest" # Certifique-se de que a imagem foi construída e tagueada corretamente

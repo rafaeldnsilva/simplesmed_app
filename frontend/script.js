@@ -1,8 +1,11 @@
-// frontend.js
+// script.js
+
+// 1) Função SALVAR - para uso em index.html
 async function salvar() {
     const form = document.getElementById('cliente-form');
     const formData = new FormData(form);
 
+    // Monta o objeto "dados" para enviar ao backend
     const dados = {
         'tipo-cliente': formData.get('tipo-cliente'),
         nome: formData.get('nome'),
@@ -15,11 +18,9 @@ async function salvar() {
         garantia: formData.get('garantia'),
         observacao: formData.get('observacao'),
         relato: formData.get('relato')
-        
     };
 
-    console.log('Dados capturados do formulário:', dados); // Log para verificar dados capturados
-    console.log('Valor do campo Relato no frontend:', dados.relato); // Log para verificar valor de relato
+    console.log('Dados capturados do formulário:', dados);
 
     try {
         const response = await fetch('http://localhost:3000/api/clientes', {
@@ -41,11 +42,74 @@ async function salvar() {
     }
 }
 
-document.getElementById('cliente-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Previne o envio padrão do formulário
-    salvar(); // Chama a função salvar
-});
+// 2) Função BUSCAR - para uso em ordem.html
+async function buscarClientes() {
+    const form = document.getElementById('ordem-form');
+    const formData = new FormData(form);
 
+    // Captura dos valores dos campos de busca
+    const nome = formData.get('searchNome');
+    const cpfCnpj = formData.get('searchCPF');
+    const telefone = formData.get('searchTelefone');
+
+    // (Removemos aquele if que verificava "nomeInput" etc., pois não existem)
+
+    // Monta um objeto "dados" com os filtros
+    const dados = { nome, cpfCnpj, telefone };
+
+    console.log('Enviando requisição de busca com:', dados);
+
+    try {
+        const response = await fetch('http://localhost:3000/api/clientes/buscar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(dados)
+        });
+
+        if (response.ok) {
+            const clientes = await response.json();
+            console.log('Dados recebidos:', clientes);
+            exibirClientes(clientes);
+        } else {
+            const error = await response.json();
+            console.error('Erro ao buscar clientes:', error);
+            alert('Erro ao buscar clientes: ' + error.message);
+        }
+    } catch (error) {
+        console.error('Erro na requisição de busca:', error);
+        alert('Erro na requisição: ' + error.message);
+    }
+}
+
+// 3) Função para exibir lista de clientes na tabela da ordem.html
+function exibirClientes(clientes) {
+    const tabela = document.getElementById('clientes-table').getElementsByTagName('tbody')[0];
+    tabela.innerHTML = '';
+
+    clientes.forEach(cliente => {
+        const row = tabela.insertRow();
+
+        const celulaNome = row.insertCell(0);
+        celulaNome.textContent = cliente.Nome;
+
+        const celulaCpfCnpj = row.insertCell(1);
+        celulaCpfCnpj.textContent = cliente.CpfCnpj;
+
+        const celulaTelefone = row.insertCell(2);
+        celulaTelefone.textContent = cliente.Telefone;
+
+        const celulaEmail = row.insertCell(3);
+        celulaEmail.textContent = cliente.Email;
+
+        const celulaAcoes = row.insertCell(4);
+        celulaAcoes.innerHTML = `
+            <button onclick="editarCliente(${cliente.Id})">Editar</button>
+            <button onclick="excluirCliente(${cliente.Id})">Excluir</button>
+        `;
+    });
+}
+
+// 4) Funções de Impressão, E-mail etc. (opcionais)
 function imprimir() {
     const form = document.getElementById('cliente-form');
     const formData = new FormData(form);
@@ -181,7 +245,7 @@ function imprimir() {
         </div>
     </body>
     </html>
-        `;
+    `;
 
 
     const newWindow = window.open();
@@ -208,7 +272,43 @@ function enviarEmail() {
     console.log("Enviando e-mail com os dados: ", emailBody);
 }
 
+// 5) Exemplo de edição e exclusão (ainda não implementadas no backend?):
+function editarCliente(id) {
+    alert('Editar cliente com ID: ' + id);
+}
 
+function excluirCliente(id) {
+    alert('Excluir cliente com ID: ' + id);
+}
+
+// 6) Escuta de eventos para o DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Tenta obter cada formulário
+    const clienteForm = document.getElementById('cliente-form'); // 1. Tenta obter o formulário de cadastro
+    const ordemForm = document.getElementById('ordem-form');  // 2. Tenta obter o formulário de busca
+
+    // Se existir "cliente-form" no DOM, significa que estamos no index.html
+    // Se existir 'cliente-form', definimos o listener para salvar()
+    if (clienteForm) {
+        clienteForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            salvar();
+        });
+    }
+
+    // Se existir "ordem-form" no DOM, significa que estamos no ordem.html
+    // Se existir 'ordem-form', definimos o listener para buscarClientes()
+    if (ordemForm) {
+        ordemForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            buscarClientes();
+        });
+    }
+});
+
+
+
+/*
 // Função para carregar e exibir os clientes quando o botão "Buscar" é clicado
 async function buscarClientes() {
     const form = document.getElementById('ordem-form');
@@ -295,5 +395,11 @@ function excluirCliente(id) {
 
 document.getElementById('cliente-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Previne o envio padrão do formulário
-    buscarClientes(); // Chama a função buscarClientes
+    salvar(); // Chama a função salvar
 });
+
+
+document.getElementById('ordem-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Previne o envio padrão do formulário
+    buscarClientes(); // Chama a função buscarClientes
+});*/
