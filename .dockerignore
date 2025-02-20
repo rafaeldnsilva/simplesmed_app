@@ -1,0 +1,23 @@
+# Ignora informações do Git
+.git
+.gitignore
+
+# Ignora Node modules (se você fizer a instalação no container)
+node_modules/
+
+# Ignora Node package (se você fizer a instalação no container)
+package-lock.json
+package.json
+
+# Ignora configs do editor
+.vscode/
+.qodo/
+
+# Ignora o arquivo .env (se você for injetar variáveis de ambiente externamente)
+.env
+
+# Eventuais builds de frontend ou logs
+build/
+dist/
+logs/
+

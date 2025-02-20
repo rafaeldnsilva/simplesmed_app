@@ -1,1 +1,19 @@
-node_modules
+# Dependências do Node
+node_modules/
+
+# Arquivos de ambiente
+.env
+
+# Pastas de editores/IDE
+.vscode/
+.qodo/
+
+# Arquivos do SO
+.DS_Store
+
+# Logs (caso existam)
+logs/
+
+# Build/Output de frontend (exemplo)
+build/
+dist/
