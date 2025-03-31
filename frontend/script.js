@@ -355,35 +355,6 @@ async function buscarClientes() {
     }
 }
 
-function exibirClientes(clientes) {
-    const tabela = document.getElementById('clientes-table').getElementsByTagName('tbody')[0];
-
-    tabela.innerHTML = '';
-
-    clientes.forEach(cliente => {
-        console.log('Exibindo cliente:', cliente); // Log para debug
-        const row = tabela.insertRow();
-
-        const celulaNome = row.insertCell(0);
-        celulaNome.textContent = cliente.Nome;
-
-        const celulaCpfCnpj = row.insertCell(1);
-        celulaCpfCnpj.textContent = cliente.CpfCnpj;
-
-        const celulaTelefone = row.insertCell(2);
-        celulaTelefone.textContent = cliente.Telefone;
-
-        const celulaEmail = row.insertCell(3);
-        celulaEmail.textContent = cliente.Email;
-
-        const celulaAcoes = row.insertCell(4);
-        celulaAcoes.innerHTML = `
-            <button onclick="editarCliente(${cliente.Id})">Editar</button>
-            <button onclick="excluirCliente(${cliente.Id})">Excluir</button>
-        `;
-    });
-}
-
 // Funções temporárias para os botões de ação
 function editarCliente(id) {
     alert('Editar cliente com ID: ' + id);
