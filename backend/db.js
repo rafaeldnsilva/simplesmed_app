@@ -5,7 +5,7 @@
 // 2) Criar a tabela 'Clientes' se não existir
 // 3) Fornecer funções para inserir, buscar, atualizar, deletar clientes
 
-/*// 1. Carrega dotenv no início
+// 1. Carrega dotenv no início
 const path = require('path');
 // 2. Importa mssql (CommonJS)
 const sql = require('mssql');
@@ -109,8 +109,7 @@ async function criarTabelaSeNaoExistir() {
   --------------------------------------------
   */
 
-
-/*// 1) Criar cliente (INSERT)
+// 1) Criar cliente (INSERT)
 async function criarCliente(dados) {
     // "dados" é um objeto com as propriedades que vêm do frontend (nome, cpfCnpj, etc.)
     const queryInsert = `
@@ -262,7 +261,7 @@ async function criarCliente(dados) {
   - e "sql", se quisermos acessar algo específico, mas geralmente nem precisamos exportar o "sql" se todas as operações estiverem aqui.
   */
   
-  /*module.exports = {
+  module.exports = {
     conectarBD,
     criarCliente,
     buscarClientes,
@@ -270,182 +269,4 @@ async function criarCliente(dados) {
     atualizarCliente,
     excluirCliente,
     sql // opcional
-  };*/
-
-  // db.js (PostgreSQL)
-
-const path = require('path');
-const { Pool } = require('pg'); // Usa Pool do pg
-
-// Carrega variáveis de ambiente do .env
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-
-// Exibe variáveis (opcional, para debug)
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_PORT:', process.env.DB_PORT);
-console.log('DB_NAME:', process.env.DB_NAME);
-
-// Validação básica das variáveis obrigatórias
-if (!process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_HOST || !process.env.DB_NAME) {
-  console.error('Variáveis de ambiente incompletas.');
-  process.exit(1);
-}
-
-// Configurações PostgreSQL
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT || 5432,
-  ssl: {
-    rejectUnauthorized: false,
-    sslmode: 'require'
-  },
-  connectionTimeoutMillis: 20000, // aumenta o tempo de espera para conexão
-});
-
-
-// Conectar e verificar/criar tabela Clientes
-async function conectarBD() {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS Clientes (
-        Id SERIAL PRIMARY KEY,
-        TipoCliente VARCHAR(50),
-        Nome VARCHAR(100),
-        CpfCnpj VARCHAR(18),
-        Telefone VARCHAR(20),
-        Email VARCHAR(100),
-        Endereco VARCHAR(200),
-        Equipamento VARCHAR(100),
-        Serie VARCHAR(100),
-        Garantia VARCHAR(4),
-        Observacao TEXT,
-        Relato TEXT
-      );
-    `);
-    console.log('Conectado ao PostgreSQL e tabela criada/verificada.');
-  } catch (err) {
-    console.error('Erro ao conectar ou criar tabela:', err);
-    throw err;
-  }
-}
-
-// CRUD PostgreSQL
-
-// 1. Criar cliente
-async function criarCliente(dados) {
-  const query = `
-    INSERT INTO Clientes (
-      TipoCliente, Nome, CpfCnpj, Telefone, Email,
-      Endereco, Equipamento, Serie, Garantia, Observacao, Relato
-    )
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-  `;
-  
-  const values = [
-    dados['tipo-cliente'], dados.nome, dados['cpf-cnpj'], dados.telefone,
-    dados.email, dados.endereco, dados.equipamento, dados.serie,
-    dados.garantia, dados.observacao, dados.relato
-  ];
-
-  try {
-    await pool.query(query, values);
-    console.log('Cliente criado com sucesso.');
-  } catch (err) {
-    console.error('Erro ao criar cliente:', err);
-    throw err;
-  }
-}
-
-// 2. Buscar clientes com filtros
-async function buscarClientes(filtros) {
-  let query = 'SELECT Id, Nome, CpfCnpj, Telefone, Email FROM Clientes WHERE 1=1';
-  const values = [];
-  let i = 1; // índice de parâmetro PostgreSQL: $1, $2, ...
-
-  if (filtros.nome) {
-    query += ` AND Nome ILIKE $${i++}`;
-    values.push(`%${filtros.nome}%`);
-  }
-  if (filtros.cpfCnpj) {
-    query += ` AND CpfCnpj ILIKE $${i++}`;
-    values.push(`%${filtros.cpfCnpj}%`);
-  }
-  if (filtros.telefone) {
-    query += ` AND Telefone ILIKE $${i++}`;
-    values.push(`%${filtros.telefone}%`);
-  }
-
-  try {
-    const res = await pool.query(query, values);
-    return res.rows;
-  } catch (err) {
-    console.error('Erro ao buscar clientes:', err);
-    throw err;
-  }
-}
-
-// 3. Listar todos os clientes
-async function listarTodosClientes() {
-  try {
-    const res = await pool.query('SELECT * FROM Clientes');
-    return res.rows;
-  } catch (err) {
-    console.error('Erro ao listar clientes:', err);
-    throw err;
-  }
-}
-
-// 4. Atualizar cliente
-async function atualizarCliente(id, dados) {
-  const query = `
-    UPDATE Clientes SET
-      TipoCliente=$1, Nome=$2, CpfCnpj=$3, Telefone=$4, Email=$5,
-      Endereco=$6, Equipamento=$7, Serie=$8, Garantia=$9,
-      Observacao=$10, Relato=$11
-    WHERE Id=$12
-  `;
-
-  const values = [
-    dados['tipo-cliente'], dados.nome, dados['cpf-cnpj'], dados.telefone,
-    dados.email, dados.endereco, dados.equipamento, dados.serie,
-    dados.garantia, dados.observacao, dados.relato, id
-  ];
-
-  try {
-    await pool.query(query, values);
-    console.log(`Cliente ${id} atualizado com sucesso.`);
-  } catch (err) {
-    console.error('Erro ao atualizar cliente:', err);
-    throw err;
-  }
-}
-
-// 5. Excluir cliente
-async function excluirCliente(id) {
-  const query = 'DELETE FROM Clientes WHERE Id=$1';
-
-  try {
-    await pool.query(query, [id]);
-    console.log(`Cliente ${id} excluído com sucesso.`);
-  } catch (err) {
-    console.error('Erro ao excluir cliente:', err);
-    throw err;
-  }
-}
-
-// Exportar métodos para uso em server.js
-module.exports = {
-  conectarBD,
-  criarCliente,
-  buscarClientes,
-  listarTodosClientes,
-  atualizarCliente,
-  excluirCliente,
-  pool // Opcional, caso precise
-};
-
+  };

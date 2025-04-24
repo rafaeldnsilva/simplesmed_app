@@ -4,7 +4,7 @@
 // 2) Chama conectarBD() para iniciar conexão
 // 3) Define rotas que usam as funções do db.js
 
-/*const express = require('express');
+const express = require('express');
 const cors = require('cors'); // Permitir requisições do frontend
 
 // Importa as funções do db.js
@@ -117,106 +117,4 @@ conectarBD()
   .catch(err => {
     console.error('Erro ao iniciar o servidor:', err);
     process.exit(1); // Encerra o processo com código de erro
-  });*/
-
-  // server.js (final ajustado)
-const express = require('express');
-const cors = require('cors');
-const {
-  conectarBD,
-  criarCliente,
-  buscarClientes,
-  listarTodosClientes,
-  atualizarCliente,
-  excluirCliente
-} = require('./db');
-
-require('dotenv').config();
-
-const app = express(); // corrigido!
-console.log('NODE_ENV:', process.env.NODE_ENV);
-
-const PORT = parseInt(process.env.APP_PORT, 10) || 3000; // corrigido!
-
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-
-// Conecta ao banco e configura as rotas
-conectarBD()
-  .then(() => {
-    console.log('Conexão com o PostgreSQL estabelecida.');
-
-    // Rotas
-    app.post('/api/clientes', async (req, res) => {
-      try {
-        await criarCliente(req.body);
-        res.status(201).json({ message: 'Cliente cadastrado com sucesso!' });
-      } catch (error) {
-        console.error('Erro ao salvar cliente:', error);
-        res.status(500).json({ error: 'Erro ao salvar cliente no banco.' });
-      }
-    });
-
-    app.post('/api/clientes/buscar', async (req, res) => {
-      try {
-        const clientes = await buscarClientes(req.body);
-        res.status(200).json(clientes);
-      } catch (error) {
-        console.error('Erro ao buscar clientes:', error);
-        res.status(500).json({ error: 'Erro ao buscar clientes.' });
-      }
-    });
-
-    app.get('/api/clientes', async (req, res) => {
-      try {
-        const todos = await listarTodosClientes();
-        res.status(200).json(todos);
-      } catch (error) {
-        console.error('Erro ao listar clientes:', error);
-        res.status(500).json({ error: 'Erro ao listar clientes.' });
-      }
-    });
-
-    app.put('/api/clientes/:id', async (req, res) => {
-      try {
-        const { id } = req.params;
-        await atualizarCliente(id, req.body);
-        res.status(200).json({ message: `Cliente ID ${id} atualizado com sucesso!` });
-      } catch (error) {
-        console.error('Erro ao atualizar cliente:', error);
-        res.status(500).json({ error: 'Erro ao atualizar cliente.' });
-      }
-    });
-
-    app.delete('/api/clientes/:id', async (req, res) => {
-      try {
-        const { id } = req.params;
-        await excluirCliente(id);
-        res.status(200).json({ message: `Cliente ID ${id} excluído com sucesso!` });
-      } catch (error) {
-        console.error('Erro ao excluir cliente:', error);
-        res.status(500).json({ error: 'Erro ao excluir cliente.' });
-      }
-    });
-
-    // Middleware de rota não encontrada
-    app.use((req, res) => {
-      res.status(404).json({ erro: 'Rota não encontrada' });
-    });
-
-    // Middleware para tratamento geral de erros
-    app.use((err, req, res, next) => {
-      console.error(err.stack);
-      res.status(500).json({ erro: 'Erro interno do servidor!' });
-    });
-
-    // Inicia o servidor web
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-    });
-
-  })
-  .catch(err => {
-    console.error('Erro ao conectar ao banco PostgreSQL:', err);
-    process.exit(1);
   });
